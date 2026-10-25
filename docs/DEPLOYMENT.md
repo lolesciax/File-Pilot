@@ -1,18 +1,13 @@
-# Cloudflare Pages deployment
+# Vercel deployment
 
-The user's selected future hosting target is Vercel, with pushing/deployment deferred. The following Cloudflare instructions are retained from the initial implementation. Before publishing to any host, review `/privacy` and `PRIVACY.md`: confirm the operator/contact route, provider, hosting logs/security configuration and whether analytics or any new data use has been enabled. Update the shared notice text in `src/content/privacy.json` and run `npm run privacy:sync`; the current notice explicitly describes Vercel as planned and the project as not yet deployed. Vercel does not apply Cloudflare `_headers`/`_redirects` automatically, so equivalent deployment configuration must be prepared at that stage.
+FilePilot is a static Vite SPA deployed from `lolesciax/File-Pilot`, branch `main`. It needs no backend, database, document uploads, analytics, environment variables or application secrets.
 
-This is a static SPA. No account service, database, secrets or backend are needed. Use Node.js 22.12+ (tested with 22.20).
+`vercel.json` selects Vite, runs `npm run build`, publishes `dist` and rewrites application routes to `index.html`. Vercel serves existing static files before the SPA fallback. It also applies the same CSP and security headers used by the local production preview. The Node.js runtime is pinned to 22.x in package.json.
 
-1. Push this directory to your own Git repository.
-2. In Cloudflare Pages, connect that repository.
-3. Choose build command `npm run build`, output directory `dist`, project root this directory.
-4. Deploy. Set `NODE_VERSION` to 22 if the hosting build uses an older runtime.
+The prebuild script copies PDF.js CMaps, fonts, ICC resources, decoder WASM and licenses from the installed package into generated `public/pdfjs/`. Deploy the complete build so the locally processed PDF/Office tools have their worker and font assets. Do not deploy only index.html and JavaScript.
 
-`public/_redirects` serves index.html for application routes. `public/_headers` sets CSP, nosniff, referrer restrictions, framing restrictions and disabled browser permissions. Vite copies both files into dist. Processing code, fonts and PDF.js worker assets are bundled locally. Base URL is `/`; a subpath host requires Vite base and Router basename adjustments.
+The Vercel project is `file-pilot` in the connected account's default team. Git integration builds future pushes; verify the intended commit and successful GitHub checks before production releases. The original Cloudflare `_headers` and `_redirects` files remain available, but Vercel uses `vercel.json` rather than those files.
 
-Local production verification: `npm run build`, then `npm run preview -- --port 4173`. Open `http://127.0.0.1:4173` and test direct navigation to `/tool/merge-pdf`. A Vite preview plugin applies the same global policy from `public/_headers`, allowing tests to exercise CSP and worker behavior. Verify headers again on the deployed Pages URL. No actual deployment has been performed by this implementation task.
+Local verification: `npm test`, `npm run build`, then run production browser checks with `FILEPILOT_PRODUCTION=1`. On the live deployment, verify `/`, `/tool/pdf-to-word` and `/privacy` directly, response security headers, worker/font assets and actual downloaded outputs. Live deployment results and URLs belong in TESTING.md.
 
-The predev/prebuild script copies PDF.js CMaps, standard fonts, ICC resources, decoder WASM and licensing from the installed package into generated `public/pdfjs/`. These files are included in dist; do not deploy just index.html and its JS. The CSP allows WebAssembly compilation for local PDF decoders without allowing arbitrary JavaScript eval.
-
-CI runs type checking, unit/component tests, build and Chromium workflows. Install browsers with `npx playwright install chromium` for local browser testing.
+The shared privacy notice in `src/content/privacy.json` describes Vercel hosting; run `npm run privacy:sync` after changing it to regenerate PRIVACY.md. Application processing remains local. Vercel's hosting/security logs are governed by its configuration and privacy notice; no specific hosting-log retention period is promised.

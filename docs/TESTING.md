@@ -1,5 +1,7 @@
 # Verification record
 
+Vercel release preparation: Node.js 22, Vite/dist build settings, SPA deep links and the existing security policy are defined in vercel.json. The shared privacy notice now describes Vercel hosting. Production build/TypeScript, all 45 unit/component tests and 48 local production browser checks passed (58.3 seconds), covering completion, Office/PDF/image/ZIP outputs, privacy, CSP/worker/font behavior, responsive layout and accessibility. `FILEPILOT_BASE_URL` can point these browser checks at an HTTPS deployment without starting the local preview server. Live release verification is recorded separately after deployment.
+
 Home navbar link: production build/TypeScript and all six scoped Chromium navigation checks passed (6.2 seconds). Checks include Home's route/active state, existing dropdown/mobile behavior, dark-theme axe scan and non-overlapping header controls at 801/820/1024/1440px. Compact laptop spacing accommodates the added link; mobile retains its existing Home entry.
 
 Light-mode card colors: production build/TypeScript passed. Three scoped Chromium checks passed (10.7 seconds): the eight-width overflow/theme/navigation check, six representative axe scans, and visual capture. Light cards use existing palette tokens for subtle backgrounds, borders, matching icons and hover/focus accents. Word/PowerPoint badges now override the generic teal icon background. Dark styles are unchanged. Evidence: `screenshot-light-tool-cards.png`. Processing tests were not rerun for this visual-only change.

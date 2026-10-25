@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "privacy:sync": "node scripts/sync-privacy-notice.mjs",
     "predev": "node scripts/prepare-pdf-assets.mjs",

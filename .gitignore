@@ -7,3 +7,6 @@ playwright-report/
 output/
 public/pdfjs/
 *.tsbuildinfo
+.vercel/
+.env
+.env.*

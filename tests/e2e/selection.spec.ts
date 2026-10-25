@@ -30,7 +30,7 @@ test("production responses apply the configured security policy", async ({
 }) => {
   test.skip(
     process.env.FILEPILOT_PRODUCTION !== "1",
-    "Security headers apply on production preview and Cloudflare Pages.",
+    "Security headers apply on production preview and Vercel.",
   );
   const response = await request.get("/tool/merge-pdf");
   expect(response.status()).toBe(200);
@@ -47,13 +47,11 @@ test("PDF text rasterization uses local fonts and produces visible text", async 
   const pdfPage = doc.addPage([300, 200]);
   pdfPage.drawText("FilePilot", { x: 30, y: 100, size: 32 });
   await page.goto("/tool/pdf-to-images");
-  await page
-    .getByLabel("Select files", { exact: true })
-    .setInputFiles({
-      name: "text.pdf",
-      mimeType: "application/pdf",
-      buffer: Buffer.from(await doc.save()),
-    });
+  await page.getByLabel("Select files", { exact: true }).setInputFiles({
+    name: "text.pdf",
+    mimeType: "application/pdf",
+    buffer: Buffer.from(await doc.save()),
+  });
   await expect(page.locator(".file-row")).toHaveCount(1);
   await page.getByLabel("Output format").selectOption("image/png");
   await page

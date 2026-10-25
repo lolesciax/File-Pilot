@@ -37,7 +37,7 @@ test("notice describes local files, persistent preference, host requests and saf
   await page.goto("/privacy");
   await expect(page.locator("article")).toContainText("filepilot-theme");
   await expect(page.locator("#network")).toContainText(
-    "has not yet been deployed",
+    "Vercel hosts this website",
   );
   await expect(page.locator("#storage")).toContainText(
     "does not delete original files or downloaded copies",

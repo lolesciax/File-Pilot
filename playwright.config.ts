@@ -6,7 +6,10 @@ const port =
   requestedPort <= 65535
     ? requestedPort
     : 4173;
-const baseURL = `http://127.0.0.1:${port}`;
+const externalURL = process.env.FILEPILOT_BASE_URL;
+if (externalURL && new URL(externalURL).protocol !== "https:")
+  throw new Error("FILEPILOT_BASE_URL must use HTTPS.");
+const baseURL = externalURL ?? `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: false,
@@ -23,14 +26,16 @@ export default defineConfig({
     headless: true,
     acceptDownloads: true,
   },
-  webServer: {
-    command:
-      process.env.FILEPILOT_PRODUCTION === "1"
-        ? `npm run preview -- --port ${port}`
-        : `npm run dev -- --port ${port}`,
-    url: baseURL,
-    reuseExistingServer:
-      !process.env.CI && process.env.FILEPILOT_PRODUCTION !== "1",
-  },
+  webServer: externalURL
+    ? undefined
+    : {
+        command:
+          process.env.FILEPILOT_PRODUCTION === "1"
+            ? `npm run preview -- --port ${port}`
+            : `npm run dev -- --port ${port}`,
+        url: baseURL,
+        reuseExistingServer:
+          !process.env.CI && process.env.FILEPILOT_PRODUCTION !== "1",
+      },
   reporter: "list",
 });

@@ -26,7 +26,7 @@
       "title": "Website requests and hosting",
       "paragraphs": [
         "Your browser needs to request the website's code, fonts, processing workers and supporting assets. These assets are bundled with the application; Office conversion does not download remote fonts or send documents to a third-party service.",
-        "Vercel is the planned hosting provider; this project has not yet been deployed. When you visit a hosted instance, its hosting infrastructure can receive connection and request information, such as your IP address, browser/request headers, requested URL and request time, to deliver and protect the website. This is separate from the files processed locally in your browser.",
+        "Vercel hosts this website. Its hosting infrastructure can receive connection and request information, such as your IP address, browser/request headers, requested URL and request time, to deliver and protect the website. This is separate from the files processed locally in your browser.",
         "Hosting logs, security features, retention and processing locations depend on the deployed provider and configuration. FilePilot does not promise a specific hosting-log retention period. See Vercel's privacy notice for its own practices; confirm the provider shown here when using a different deployment."
       ],
       "links": [

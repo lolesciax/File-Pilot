@@ -57,7 +57,7 @@ src/
   stores/            In-memory workspace/job state
   lib/               Validation, page ranges, filenames, catalog and theme
 tests/               Unit, component and cross-browser end-to-end checks
-public/              Favicon, SPA fallback and Cloudflare security headers
+public/              Favicon, bundled PDF assets and alternate-host headers
 docs/                Architecture, design, processing, verification and deployment
 .github/workflows/   Build and test CI
 ```
@@ -74,6 +74,6 @@ Office inputs have a stricter 20 MB ZIP/80 MB expanded/2,000-part limit. Office 
 
 ## Verification and deployment
 
-See [testing results](docs/TESTING.md) for executed checks and their limits. For free static hosting, connect the repository to Cloudflare Pages with build command `npm run build` and output directory `dist`. No backend or environment secrets are needed. [Deployment instructions](docs/DEPLOYMENT.md) describe SPA fallback and security headers. The application has **not** been deployed.
+See [testing results](docs/TESTING.md) for executed checks and deployment verification. Vercel builds this repository with `npm run build` and publishes `dist`; `vercel.json` supplies SPA fallback and security headers. No backend or environment secrets are needed. [Deployment instructions](docs/DEPLOYMENT.md) describe the setup and live checks.
 
 See the [implementation plan](docs/IMPLEMENTATION_PLAN.md), [architecture](docs/ARCHITECTURE.md), [feature specification](docs/FEATURE_SPECIFICATION.md), [processing engine](docs/PROCESSING_ENGINE.md), [design system](docs/DESIGN_SYSTEM.md) and [known limitations](docs/KNOWN_LIMITATIONS.md).
