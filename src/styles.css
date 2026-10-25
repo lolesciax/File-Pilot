@@ -625,6 +625,25 @@ input::placeholder {
 .hero-actions .button {
   min-height: 48px;
 }
+/* Home entrances use WAAPI translate/opacity; existing rotations stay intact. */
+.home-motion .tool-card {
+  animation: none;
+}
+.home-motion .card-arrow,
+.home-motion .hero-actions .button-primary svg:last-of-type {
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .home-motion .tool-card:hover .card-arrow {
+    transform: translate(2px, -2px);
+  }
+  .home-motion .hero-actions .button:hover {
+    transform: translateY(-2px);
+  }
+  .home-motion .hero-actions .button-primary:hover svg:last-of-type {
+    transform: translateX(3px);
+  }
+}
 .document-art {
   position: relative;
   overflow: clip;

@@ -13,6 +13,7 @@ import { tools } from "../lib/catalog";
 import { ToolIcon } from "../components/ToolIcon";
 import { Button } from "../components/ui/button";
 import { DocumentArt } from "../components/DocumentArt";
+import { useHomeMotion } from "../hooks/useHomeMotion";
 export default function Home() {
   const { category } = useParams();
   const location = useLocation();
@@ -26,22 +27,30 @@ export default function Home() {
         .toLowerCase()
         .includes(search.toLowerCase()),
   );
+  const motionRef = useHomeMotion(
+    isHome,
+    filtered.map((tool) => tool.id).join(","),
+  );
   return (
-    <div className="container">
+    <div ref={motionRef} className={`container${isHome ? " home-motion" : ""}`}>
       {isHome ? (
         <>
           <section className="hero">
             <div className="hero-copy">
-              <h1>
+              <h1 data-home-reveal data-home-duration="700">
                 Your files. Your tools.
                 <br />
                 <span>Your workspace.</span>
               </h1>
-              <p>
+              <p data-home-reveal data-home-delay="90" data-home-duration="650">
                 Process PDFs, edit images, and manage files directly in your
                 browser. No uploads. No accounts. Just get things done.
               </p>
-              <div className="hero-actions">
+              <div
+                className="hero-actions"
+                data-home-reveal
+                data-home-delay="180"
+              >
                 <Button asChild>
                   <a href="#tools">
                     <Grid2X2 size={18} />
@@ -59,7 +68,7 @@ export default function Home() {
             </div>
             <DocumentArt />
           </section>
-          <div className="privacy-divider">
+          <div className="privacy-divider" data-home-reveal>
             <span />
             <p>
               <ShieldCheck size={23} />
@@ -86,7 +95,7 @@ export default function Home() {
         </div>
       )}
       <section id="tools" className="catalog">
-        <div className="catalog-heading">
+        <div className="catalog-heading" data-home-reveal>
           <div>
             <h2>
               {isHome ? "A little less busywork." : "Find your next tool"}
@@ -116,6 +125,7 @@ export default function Home() {
         </div>
         <div
           className="catalog-tabs"
+          data-home-reveal
           role="navigation"
           aria-label="Filter tools"
         >
@@ -141,7 +151,13 @@ export default function Home() {
               className={`tool-card ${tool.category} card-tone-${tool.icon}`}
               to={`/tool/${tool.id}`}
               key={tool.id}
-              style={{ animationDelay: `${Math.min(i, 7) * 25}ms` }}
+              data-home-reveal
+              data-home-delay={(i % 4) * 45}
+              style={
+                isHome
+                  ? undefined
+                  : { animationDelay: `${Math.min(i, 7) * 25}ms` }
+              }
             >
               <div className="tool-card-top">
                 <span className={`tool-icon tone-${tool.icon}`}>
@@ -172,7 +188,7 @@ export default function Home() {
           </div>
         )}
       </section>
-      <section className="local-note">
+      <section className="local-note" data-home-reveal>
         <ShieldCheck size={30} />
         <div>
           <h3>Your work stays yours.</h3>
